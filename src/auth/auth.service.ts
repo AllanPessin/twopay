@@ -4,10 +4,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthRegisterDto } from './dto/auth-register.dto';
+import { AuthRegisterDTO } from './dto/auth-register.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,23 +15,23 @@ export class AuthService {
     private prisma: PrismaService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<User> {
+  async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
     if (!user) {
-      throw new UnauthorizedException('E-mail ou senha incorreto');
+      throw new UnauthorizedException('Email ou senha incorretos');
     }
 
     const isValidPassword = await bcrypt.compare(pass, user.password);
     if (!isValidPassword) {
-      throw new UnauthorizedException('E-mail ou senha incorreto');
+      throw new UnauthorizedException('Email ou senha incorretos');
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = user;
-    return user as User;
+    return result;
   }
 
   async login(user: any): Promise<any> {
@@ -45,7 +44,7 @@ export class AuthService {
     };
   }
 
-  async regsiter({ email, password, name }: AuthRegisterDto): Promise<any> {
+  async register({ email, password, name }: AuthRegisterDTO): Promise<any> {
     const userExist = await this.prisma.user.findUnique({
       where: { email },
     });

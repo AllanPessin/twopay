@@ -22,6 +22,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Token inválido');
     }
 
-    return user;
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userData } = user;
+    return userData;
   }
 }
