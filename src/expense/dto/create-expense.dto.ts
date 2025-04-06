@@ -1,7 +1,7 @@
+import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
-  IsDecimal,
   IsNumber,
   IsOptional,
   IsString,
@@ -11,13 +11,11 @@ export class CreateExpenseDto {
   @IsString()
   description: string;
 
-  @IsDecimal({
-    decimal_digits: '0,2',
-    force_decimal: true,
-    locale: 'pt-BR',
-  })
+  @Type(() => Number)
+  @IsNumber()
   value: number;
 
+  @Transform(({ value }) => new Date(value))
   @IsDate()
   date: Date;
 
@@ -30,8 +28,8 @@ export class CreateExpenseDto {
 
   @IsBoolean()
   @IsOptional()
-  paid: boolean;
+  paid?: boolean;
 
   @IsNumber()
-  userId: number;
+  categoryId?: number;
 }
