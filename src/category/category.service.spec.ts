@@ -15,4 +15,26 @@ describe('CategoryService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should create a category', async () => {
+    const createCategoryDto = {
+      name: 'Test Category',
+    };
+
+    const result = await service.create(createCategoryDto);
+
+    expect(result).toEqual({
+      id: expect.any(Number),
+      ...createCategoryDto,
+    });
+  });
+
+  it('should find all categories', async () => {
+    const result = await service.findAll();
+    expect(result).toEqual({
+      id: expect.any(Number),
+      name: expect.any(String),
+      expense: expect.any(Array),
+    });
+  });
 });
