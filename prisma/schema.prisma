@@ -46,6 +46,19 @@ model Expense {
 
     userId Int
     user User @relation(fields: [userId], references: [id])
+    categoryId Int?
+    category Category? @relation(fields: [categoryId], references: [id])
 
     @@map("expense")
+}
+
+model Category {
+    id Int @id @default(autoincrement())
+    name String @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    expenses Expense[]
+    @@map("category")
 }
