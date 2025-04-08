@@ -78,7 +78,27 @@ export class CategoryService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    const categoryExists = await this.prisma.category.findUnique({
+      where: { id },
+    });
+
+    if (!categoryExists) {
+      throw new NotFoundException('Category not found');
+    }
+
+    const categoryWithExpenses = await this.prisma.category.findUnique({
+      where: { id },
+      include: { expenses: true },
+    });
+    if (categoryWithExpenses?.expenses.length > 0) {
+      throw new ConflictException(
+        `Category ${categoryWithExpenses} has expense and cannot be deleted`,
+      );
+    }
+
+    return this.prisma.category.delete({
+      where: { id },
+    });
   }
 }
