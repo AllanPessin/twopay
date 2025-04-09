@@ -10,5 +10,18 @@ async function bootstrap() {
     }),
   );
   await app.listen(process.env.PORT ?? 3000);
+
+  app.enableCors({
+    origin: 'domain-name',
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'Authorization',
+    ],
+  });
 }
 bootstrap();
