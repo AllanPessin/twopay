@@ -3,10 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PaginationDto } from 'src/pagination/dto/pagination.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { PaginationDto } from 'src/pagination/dto/pagination.dto';
+import { Category } from '@prisma/client';
+import { PaginatedResultDto } from 'src/pagination/dto/PaginatedResult.dto';
 
 @Injectable()
 export class CategoryService {
@@ -28,7 +30,9 @@ export class CategoryService {
     });
   }
 
-  async findAll(pagination: PaginationDto) {
+  async findAll(
+    pagination: PaginationDto,
+  ): Promise<PaginatedResultDto<Category>> {
     const { page = 1, limit = 20 } = pagination;
     const skip = (page - 1) * limit;
 
