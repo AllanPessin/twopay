@@ -6,59 +6,62 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-    id Int @id @default(autoincrement())
-    email String @unique
-    password String
-    name String
-    role Role @default(GUEST)
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  name     String
+  role     Role   @default(GUEST)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-    expenses Expense[]
-    @@map("user")
+  expenses Expense[]
+
+  @@map("user")
 }
 
 enum Role {
-    GUEST
-    ADMIN
+  GUEST
+  ADMIN
 }
 
 model Expense {
-    id Int @id @default(autoincrement())
-    description String
-    value Float
-    date DateTime @default(now())
-    observations String? 
-    recurrence Int
-    paid Boolean @default(false)
-    
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  id           Int      @id @default(autoincrement())
+  description  String
+  value        Float
+  date         DateTime @default(now())
+  observations String?
+  recurrence   Int
+  paid         Boolean  @default(false)
 
-    userId Int
-    user User @relation(fields: [userId], references: [id])
-    categoryId Int?
-    category Category? @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-    @@map("expense")
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  @@map("expense")
 }
 
 model Category {
-    id Int @id @default(autoincrement())
-    name String @unique
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-    expenses Expense[]
-    @@map("category")
+  expenses Expense[]
+
+  @@map("category")
 }
