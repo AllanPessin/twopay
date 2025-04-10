@@ -7,6 +7,8 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ExpenseModule } from './expense/expense.module';
 import { CategoryModule } from './category/category.module';
+import { ReportService } from './report/report.service';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -15,8 +17,9 @@ import { CategoryModule } from './category/category.module';
     PrismaModule,
     ExpenseModule,
     CategoryModule,
+    ReportModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService, PrismaService, ReportService],
 })
 export class AppModule {}
