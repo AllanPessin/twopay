@@ -51,7 +51,7 @@ export class CategoryService {
     return { data, total, page, limit, lastPage: Math.ceil(total / limit) };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Category> {
     const category = await this.prisma.category.findUnique({
       where: { id },
     });
@@ -63,13 +63,16 @@ export class CategoryService {
     return category;
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async update(
+    id: number,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<Category> {
     const category = await this.prisma.category.findUnique({
       where: { id },
     });
 
     if (!category) {
-      return new NotFoundException('Category not found');
+      throw new NotFoundException('Category not found');
     }
 
     return this.prisma.category.update({
@@ -93,7 +96,7 @@ export class CategoryService {
     });
     if (categoryWithExpenses?.expenses.length > 0) {
       throw new ConflictException(
-        `Category ${categoryWithExpenses} has expense and cannot be deleted`,
+        `Category '${categoryExists.name}' has expense and cannot be deleted`,
       );
     }
 
