@@ -7,9 +7,14 @@ import { ReportService } from './report.service';
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
-  @Get('totalByCategory/:categoryId')
-  totalByCategory(@Param('categoryId') categoryId: number) {
-    return this.reportService.getTotalByCategory(+categoryId);
+  @Get('totalByCategory')
+  totalByCategory() {
+    return this.reportService.getTotalByCategory();
+  }
+
+  @Get('totalByCategoryId/:categoryId')
+  totalByCategoryid(@Param('categoryId') categoryId: number) {
+    return this.reportService.getTotalByCategoryId(+categoryId);
   }
 
   @Get('totalExpenses')

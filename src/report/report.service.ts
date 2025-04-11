@@ -5,7 +5,36 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ReportService {
   constructor(private prisma: PrismaService) {}
 
-  async getTotalByCategory(categoryId: number) {
+  async getTotalByCategory() {
+    const result = await this.prisma.expense.groupBy({
+      by: ['categoryId'],
+      _sum: {
+        value: true,
+      },
+    });
+
+    const categoryIds = result.map((item) => item.categoryId);
+
+    const categories = await this.prisma.category.findMany({
+      where: {
+        id: { in: categoryIds },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    const categoryMap = new Map(categories.map((cat) => [cat.id, cat.name]));
+
+    return result.map((item) => ({
+      categoryId: item.categoryId,
+      categoryName: categoryMap.get(item.categoryId),
+      total: item._sum.value,
+    }));
+  }
+
+  async getTotalByCategoryId(categoryId: number) {
     const category = await this.prisma.category.findFirst({
       where: {
         id: categoryId,
