@@ -25,6 +25,7 @@ model User {
   updatedAt DateTime @default(now()) @updatedAt
 
   expenses Expense[]
+  rate Rate?
 
   @@map("user")
 }
@@ -64,4 +65,17 @@ model Category {
   expenses Expense[]
 
   @@map("category")
+}
+
+model Rate {
+    id Int @id @default(autoincrement())
+    value Float
+    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    userId Int @unique
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("rate")
 }
