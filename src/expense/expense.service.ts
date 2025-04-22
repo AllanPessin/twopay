@@ -45,4 +45,11 @@ export class ExpenseService {
       where: { id },
     });
   }
+
+  markAsPaid(id: number) {
+    return this.prisma.expense.update({
+      where: { id },
+      data: { paid: true },
+    });
+  }
 }

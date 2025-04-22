@@ -49,9 +49,6 @@ export class ReportService {
       where: {
         categoryId,
       },
-      include: {
-        category: true,
-      },
     });
 
     const total = expenses.reduce((sum, expense) => sum + expense.value, 0);
