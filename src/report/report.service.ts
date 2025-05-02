@@ -11,6 +11,11 @@ export class ReportService {
       _sum: {
         value: true,
       },
+      where: {
+        categoryId: {
+          not: null,
+        },
+      },
     });
 
     const categoryIds = result.map((item) => item.categoryId);

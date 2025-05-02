@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
@@ -46,10 +50,29 @@ export class ExpenseService {
     });
   }
 
-  markAsPaid(id: number) {
+  async markAsPaid(id: number) {
+    const expense = await this.prisma.expense.findFirst({
+      where: { id },
+    });
+
+    if (!expense) {
+      throw new NotFoundException('Expense not found');
+    }
+
+    if (expense.paid) {
+      throw new ConflictException('Expense is already paid');
+    }
+
     return this.prisma.expense.update({
       where: { id },
       data: { paid: true },
+    });
+  }
+
+  markAsUnpaid(id: number) {
+    return this.prisma.expense.update({
+      where: { id },
+      data: { paid: false },
     });
   }
 }

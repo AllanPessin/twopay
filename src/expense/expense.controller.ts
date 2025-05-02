@@ -51,4 +51,9 @@ export class ExpenseController {
   markAsPaid(@Param('id') id: string) {
     return this.expenseService.markAsPaid(+id);
   }
+
+  @Patch('mark-as-unpaind/:id')
+  markAsUnpaid(@Param('id') id: string) {
+    return this.expenseService.markAsUnpaid(+id);
+  }
 }
