@@ -26,4 +26,8 @@ export class UsersService {
       },
     });
   }
+
+  findAll(): Promise<any> {
+    return this.prisma.user.findMany();
+  }
 }

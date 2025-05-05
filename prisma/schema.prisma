@@ -5,77 +5,84 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../../node_modules/.prisma/client"
+    provider = "prisma-client-js"
+    output   = "../../node_modules/.prisma/client"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  name     String
-  role     Role   @default(GUEST)
+    id       Int    @id @default(autoincrement())
+    email    String @unique
+    password String
+    name     String
+    role     Role   @default(GUEST)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  expenses Expense[]
-  rate Rate?
-
-  @@map("user")
-}
-
-enum Role {
-  GUEST
-  ADMIN
-}
-
-model Expense {
-  id           Int      @id @default(autoincrement())
-  description  String
-  value        Float
-  date         DateTime @default(now())
-  observations String?
-  recurrence   Int
-  paid         Boolean  @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  userId     Int
-  user       User      @relation(fields: [userId], references: [id])
-  categoryId Int?
-  category   Category? @relation(fields: [categoryId], references: [id])
-
-  @@map("expense")
-}
-
-model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  expenses Expense[]
-
-  @@map("category")
-}
-
-model Rate {
-    id Int @id @default(autoincrement())
-    value Float
-    
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 
-    userId Int @unique
-    user User @relation(fields: [userId], references: [id])
+    expenses    Expense[]
+    expenseUser ExpenseUser[]
 
-    @@map("rate")
+    @@map("user")
+}
+
+enum Role {
+    GUEST
+    ADMIN
+}
+
+model Expense {
+    id           Int      @id @default(autoincrement())
+    description  String
+    value        Float
+    date         DateTime @default(now())
+    observations String?
+    recurrence   Int
+    paid         Boolean  @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    categoryId Int?
+    category   Category? @relation(fields: [categoryId], references: [id])
+
+    userId Int
+    user   User @relation(fields: [userId], references: [id])
+
+    expenseUser ExpenseUser[]
+
+    @@map("expense")
+}
+
+model Category {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    expenses Expense[]
+
+    @@map("category")
+}
+
+model ExpenseUser {
+    id         Int   @id @default(autoincrement())
+    percentage Float
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    userId Int
+    user   User @relation(fields: [userId], references: [id])
+
+    expenseId Int
+    expense   Expense @relation(fields: [expenseId], references: [id])
+
+    @@unique([userId, expenseId])
+    @@map("expense_user")
 }

@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Min,
 } from 'class-validator';
 
 export class CreateExpenseDto {
@@ -13,6 +14,7 @@ export class CreateExpenseDto {
 
   @Type(() => Number)
   @IsNumber()
+  @Min(0.01)
   value: number;
 
   @Transform(({ value }) => new Date(value))
@@ -24,11 +26,12 @@ export class CreateExpenseDto {
   observations?: string;
 
   @IsNumber()
+  @Min(1)
   recurrence: number;
 
   @IsBoolean()
   @IsOptional()
-  paid?: boolean;
+  paid?: boolean = false;
 
   @IsNumber()
   categoryId?: number;

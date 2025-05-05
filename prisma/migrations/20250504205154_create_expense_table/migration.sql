@@ -9,6 +9,7 @@ CREATE TABLE `expense` (
     `paid` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `categoryId` INTEGER NULL,
     `userId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)

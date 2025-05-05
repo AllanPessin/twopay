@@ -1,4 +1,5 @@
 import {
+  //   BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -11,12 +12,21 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 export class ExpenseService {
   constructor(private prisma: PrismaService) {}
 
-  create(createExpenseDto: CreateExpenseDto, userId: number) {
+  create(createExpenseDto: CreateExpenseDto, userId: number): Promise<any> {
     const { categoryId, ...expenseData } = createExpenseDto;
+
+    const categoryExists = this.prisma.category.findUnique({
+      where: { id: categoryId },
+    });
+
+    if (!categoryExists) {
+      throw new NotFoundException('Category not found');
+    }
 
     return this.prisma.expense.create({
       data: {
         ...expenseData,
+        paid: expenseData.paid ?? false,
         user: {
           connect: { id: userId },
         },
@@ -25,6 +35,10 @@ export class ExpenseService {
         },
       },
     });
+    //   .catch((error) => {
+    //     throw new BadRequestException('Failed to create expense', error);
+    //   })
+    //   .finally(() => this.prisma.$disconnect());
   }
 
   findAll() {

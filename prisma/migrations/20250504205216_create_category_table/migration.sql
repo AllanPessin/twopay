@@ -1,14 +1,13 @@
 -- CreateTable
-CREATE TABLE `rate` (
+CREATE TABLE `category` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `value` DOUBLE NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `userId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `rate_userId_key`(`userId`),
+    UNIQUE INDEX `category_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `rate` ADD CONSTRAINT `rate_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `expense` ADD CONSTRAINT `expense_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `category`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

@@ -36,6 +36,9 @@ export class CategoryService {
     const { page = 1, limit = 20 } = pagination;
     const skip = (page - 1) * limit;
 
+    const model = this.prisma.category.fields;
+    const hasExpenses = 'expenses' in model;
+
     const [data, total] = await this.prisma.$transaction([
       this.prisma.category.findMany({
         skip,
@@ -43,7 +46,7 @@ export class CategoryService {
         orderBy: {
           createdAt: 'desc',
         },
-        include: { expenses: true },
+        include: hasExpenses ? { expenses: true } : undefined,
       }),
       this.prisma.category.count(),
     ]);
