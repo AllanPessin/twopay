@@ -47,7 +47,7 @@ collection:
         meta:
           id: req_b42d5195a848452f824dda8ea79960bd
           created: 1742934636069
-          modified: 1743968607630
+          modified: 1746394365387
           isPrivate: false
           sortKey: -1742933966321
         method: POST
@@ -65,7 +65,39 @@ collection:
           - name: User-Agent
             value: insomnia/11.0.0
             id: pair_6883fad5232c49acb33a9724b1f9f428
-          - id: pair_7e4b1df75859452d850fcaeebe437647
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/auth/profile"
+        name: Profile
+        meta:
+          id: req_2e1387c36c494192aa9269440c307e2a
+          created: 1746368095683
+          modified: 1746368134738
+          isPrivate: false
+          sortKey: -1742933966171
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "allan.pessin@outlook.com",
+            	"name": "allan",
+            	"password": "31599753"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_6c7e5bcc9a5146b6835d4036e5663fcb
+          - name: User-Agent
+            value: insomnia/11.0.0
+            id: pair_b2b79ac9d78d48928ef633aad3a82531
+          - id: pair_4f804b6d355040b188d5b3b054529d40
             name: Authorization
             value: Bearer {% response 'body', 'req_b42d5195a848452f824dda8ea79960bd',
               'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'never', 60 %}
@@ -90,7 +122,7 @@ collection:
         meta:
           id: req_49b87a055ae64d90900b92bd358035f2
           created: 1743855323436
-          modified: 1746111192119
+          modified: 1746394388161
           isPrivate: false
           sortKey: -1743855324746
         method: POST
@@ -100,11 +132,11 @@ collection:
             {
             	"description": "casa",
             	"value": 42.48,
-            	"date": "2025-04-05T00:00:00.000Z",
+            	"date": "2025-04-05",
             	"observations": "Nenhuma observação",
             	"recurrence": 1,
             	"paid": false,
-            	"categoryId": 4
+            	"categoryId": 1
             }
         parameters:
           - id: pair_5046b357658b49c2ae726d25552579ab
@@ -160,7 +192,7 @@ collection:
         meta:
           id: req_4252e26e09bf4f45998fb6dbd1177a55
           created: 1743869598039
-          modified: 1743970328527
+          modified: 1746359482430
           isPrivate: false
           sortKey: -1743855324496
         method: GET
@@ -292,7 +324,7 @@ collection:
         meta:
           id: req_0f1a45dd697d47f6a53481ebdcda5660
           created: 1743944210610
-          modified: 1743970754928
+          modified: 1746367958591
           isPrivate: false
           sortKey: -1743944211870
         method: POST
@@ -300,7 +332,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"name": "Mercado"
+            	"name": "Fixo"
             }
         headers:
           - name: Content-Type
@@ -482,6 +514,75 @@ collection:
             value: insomnia/11.0.2
             id: pair_0212bfc3e87d4617b831b017e7963f38
           - id: pair_3491eaaff432418baa09a9f0dbf6cd3e
+            name: Authorization
+            value: Bearer {% response 'body', 'req_b42d5195a848452f824dda8ea79960bd',
+              'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'never', 60 %}
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/report/totalExpenses"
+        name: Total Expenses
+        meta:
+          id: req_3040a184834440ae804c8fbb5bfeccaa
+          created: 1746295656634
+          modified: 1746295660720
+          isPrivate: false
+          sortKey: -1745566992905.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+            id: pair_0212bfc3e87d4617b831b017e7963f38
+          - id: pair_3491eaaff432418baa09a9f0dbf6cd3e
+            name: Authorization
+            value: Bearer {% response 'body', 'req_b42d5195a848452f824dda8ea79960bd',
+              'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'never', 60 %}
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: User
+    meta:
+      id: fld_a2c0f5783b704f2fabcc0308435ce0ed
+      created: 1746360866336
+      modified: 1746360879132
+      sortKey: -1743394641838
+    children:
+      - url: "{{ _.localhost }}/users"
+        name: Finda All
+        meta:
+          id: req_e2ca793cf5f14f6e8b89d701aebc8ceb
+          created: 1746360887548
+          modified: 1746360907728
+          isPrivate: false
+          sortKey: -1746360894187
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "allan.pessin@outlook.com",
+            	"password": "31599753"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_4169afa3f70b457187760da95a347129
+          - name: User-Agent
+            value: insomnia/11.0.0
+            id: pair_6883fad5232c49acb33a9724b1f9f428
+          - id: pair_7e4b1df75859452d850fcaeebe437647
             name: Authorization
             value: Bearer {% response 'body', 'req_b42d5195a848452f824dda8ea79960bd',
               'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'never', 60 %}
